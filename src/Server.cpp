@@ -5,7 +5,7 @@
  *      Author: jonno
  */
 
-#include "ProxyServer.h"
+#include "Server.h"
 #include "Socket.h"
 #include <thread>
 #include "string.h"
@@ -14,6 +14,7 @@
 #include "unistd.h"
 #include <iostream>
 #include "Connection.h"
+
 
 using namespace std;
 
@@ -34,19 +35,19 @@ void processConnection(ConnectionData* data)
 }
 
 
-ProxyServer::ProxyServer(int port) {
+Server::Server(int port) {
 	mPort = port;
 	mListenFD = -1;
 }
 
-ProxyServer::~ProxyServer() {
+Server::~Server() {
 	// TODO Auto-generated destructor stub
 	if (mListenFD != -1) {
 		close(mListenFD);
 	}
 }
 
-void ProxyServer::Listen() {
+void Server::Listen() {
 	if (mListenFD != -1) {
 		// close
 		return;

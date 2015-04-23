@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <fstream>
-#include "ProxyServer.h"
+#include "Server.h"
 
 using namespace std;
 
@@ -88,9 +88,9 @@ int main(int argc, char* argv[])
 
 
 	int port = cfg.port;
-	ProxyServer proxy = ProxyServer(port);
+	Server server = Server(port);
 
-	proxy.Listen();
+	server.Listen();
 
 	return 0;
 }
