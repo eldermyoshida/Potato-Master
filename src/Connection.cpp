@@ -24,6 +24,7 @@ void Connection::handleConnection() {
 
 	mSock = std::make_unique<Socket>(sock);
 
+	/*
 	if (!this->receiveGreeting()) {
 		return;
 	}
@@ -40,6 +41,7 @@ void Connection::handleConnection() {
 	}
 
 	this->relayTraffic(outSock);
+	 */
 
 }
 

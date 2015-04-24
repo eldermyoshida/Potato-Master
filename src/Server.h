@@ -9,14 +9,15 @@
 #define SRC_SERVER_H_
 
 #include "Connection.h"
+#include "Link.h"
 #include <unordered_map>
-
+#include <queue>
 
 class Server {
 private:
 	int mPort;
 	int mListenFD;
-	std::unordered_map<std::string,std::string> mymap;
+	std::unordered_map<std::string,std::priority_queue<Link>> link_map;
 	
 public:
 	Server(int port);
