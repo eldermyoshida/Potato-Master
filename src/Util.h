@@ -9,6 +9,7 @@
 #define SRC_UTIL_H_
 
 #include <string>
+#include <vector>
 
 namespace Util {
 
@@ -23,6 +24,9 @@ namespace Util {
 	 * into a string of hexidecimal values, e.g.: ")x05 0x12"
 	 */
 	std::string stringToHex(const std::string& str);
+	
+	std::vector<std::string> split(std::string string, char c);
+
 
 } /* namespace Util */
 

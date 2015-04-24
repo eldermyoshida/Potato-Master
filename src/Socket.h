@@ -58,7 +58,7 @@ protected:
 private:
 	// No copying.
 	Socket(const Socket&);
-	Socket& operator=(const Socket&) const;
+	Socket& operator=(const Socket&);
 };
 
 // Convert a string of hex bytes, like this "deadf00d" into a string.

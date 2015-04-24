@@ -40,7 +40,6 @@ void Connection::handleConnection() {
 	}
 
 	this->relayTraffic(outSock);
-	
 
 }
 

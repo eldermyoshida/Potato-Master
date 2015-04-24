@@ -11,10 +11,10 @@
 
 #include "Connection.h"
 #include "Link.h"
+#include "Socket.h"
 #include <unordered_map>
-#include <queue>
 #include <set>
-#include <vector>
+#include <queue>
 
 struct LinkComparator
 {
@@ -24,13 +24,14 @@ struct LinkComparator
 	}
 };
 
-
 class Server {
 private:
 	int mPort;
 	int mListenFD;
+	Socket *sock;
+	
 	std::unordered_map<std::string,std::priority_queue<Link, std::vector<Link>, LinkComparator>> link_map;
-	std::set<Node> nodes;
+	std::vector<Node> nodes;
 	void processConnection(ConnectionData* data);
 	void nodeConnect(std::string request);
 	void nodeUpdate(std::string request);

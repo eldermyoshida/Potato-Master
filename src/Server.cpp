@@ -19,20 +19,15 @@
 #include "Node.h"
 #include "Link.h"
 #include <vector>
-#include <boost/algorithm/string.hpp>
-
-
-
-#include <boost/tokenizer.hpp>
 
 using namespace std;
 
 
 void Server::nodeJoin(std::string request){
-
+	std::string response;
+	response.clear();
 	
-	vector<string> tokenList;
-	split(tokenList, request, boost::is_any_of("|"), boost::token_compress_on);
+	vector<string> tokenList = Util::split(request, '|');
 	if(tokenList.size()<3){
 		cerr<<"Join with insufficient parameters!\n";
 	}
@@ -40,34 +35,94 @@ void Server::nodeJoin(std::string request){
 	Node node =  Node::Node(tokenList[1], tokenList[2]);
 	int loops = (int)tokenList.size()/3;
 	if(loops<=0){
-		nodes.insert(node);
+		nodes.push_back(node);
 		return;
 	}
 	
 	for(int i=1; i<loops; i++){
-		Node server(tokenList[i*3], tokenList[i*3+1]);
+		Node server = Node::Node(tokenList[i*3], tokenList[i*3+1]);
 		int latency = std::stoi( tokenList[i*3+2]);
 		Link link = Link::Link(node, server, latency, true);
-		priority_queue<Link> links;
-		link_map[link.getLinkID()].push(link);
-		
+		if(link_map.count(link.getLinkID())<=0){
+			std::priority_queue<Link, std::vector<Link>, LinkComparator> links;
+			links.push(link);
+			link_map[link.getLinkID()] = links;
+			nodes.push_back(node);
+		} else {
+			link_map[link.getLinkID()].push(link);
+		}
 	}
 	
+
+	response.append(std::to_string(Constants::PMessages::OK));
+	sock->send(response);
 	
 }
 
 void Server::nodeConnect(std::string request){
+	std::string response;
+	response.clear();
 	
+	vector<string> tokenList = Util::split(request, '|');
+	if(tokenList.size()!=5){
+		cerr<<"Connect wrong number of parameters!\n";
+	}
 	
+	Node node =  Node::Node(tokenList[1], tokenList[2]);
+
+
+	Node server = Node::Node(tokenList[3], tokenList[4]);
+
+	Link link = Link::Link(node, server, 0, true);
+		if(link_map.count(link.getLinkID())<=0){
+			
+			response.append(std::to_string(Constants::PMessages::NOT_FOUND));
+
+		} else {
+			//Found!
+			link = link_map[link.getLinkID()].top();
+			response.append(std::to_string(Constants::PMessages::RESPONSE));
+			response.append("|");
+			response.append(link.getLinkID());
+		}
+
+	sock->send(response);
 }
 
 void Server::nodeUpdate(std::string request){
 	
+	std::string response;
+	response.clear();
 	
-}
-
-void parseString(std::string){
+	vector<string> tokenList = Util::split(request, '|');
+	if(tokenList.size()<3){
+		cerr<<"Join with insufficient parameters!\n";
+	}
 	
+	Node node =  Node::Node(tokenList[1], tokenList[2]);
+	int loops = (int)tokenList.size()/3;
+	if(loops<=0){
+		nodes.push_back(node);
+		return;
+	}
+	
+	for(int i=1; i<loops; i++){
+		Node server = Node::Node(tokenList[i*3], tokenList[i*3+1]);
+		int latency = std::stoi( tokenList[i*3+2]);
+		Link link = Link::Link(node, server, latency, true);
+		if(link_map.count(link.getLinkID())<=0){
+			std::priority_queue<Link, std::vector<Link>, LinkComparator> links;
+			links.push(link);
+			link_map[link.getLinkID()] = links;
+			nodes.push_back(node);
+		} else {
+			link_map[link.getLinkID()].push(link);
+		}
+	}
+	
+	
+	response.append(std::to_string(Constants::PMessages::OK));
+	sock->send(response);
 }
 
 void Server::processConnection(ConnectionData* data)
@@ -82,7 +137,7 @@ void Server::processConnection(ConnectionData* data)
 		return;
 	}
 	
-	std::unique_ptr<Socket> sock = std::make_unique<Socket>(data->socket);
+	Socket *sock = new Socket(data->socket);
 	if (!sock->receive(request, -1))
 	{
 		cerr<<"Could not receive node request\n";

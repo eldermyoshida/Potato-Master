@@ -9,6 +9,7 @@
 
 #include <stdexcept>
 
+
 namespace Util {
 
 static const char* const lookupTable = "0123456789ABCDEF";
@@ -53,6 +54,21 @@ std::string stringToHex(const std::string& str) {
 	return output;
 }
 
+std::vector<std::string> split(std::string string, char c){
+		std::vector<std::string> result;
+		const char *str = string.c_str();
+		do
+		{
+			const char *begin = str;
+			
+			while(*str != c && *str)
+				str++;
+			
+			result.push_back(std::string(begin, str));
+		} while (0 != *str++);
+		
+		return result;
+	}
 
 } /* namespace Util */
 
