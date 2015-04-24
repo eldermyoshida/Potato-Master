@@ -11,17 +11,25 @@
 
 #include "Connection.h"
 #include "Link.h"
-#include "CompareLink.h"
 #include <unordered_map>
 #include <queue>
 #include <set>
 #include <vector>
 
+struct LinkComparator
+{
+	bool operator() (const Link &lhs, const Link &rhs) const
+	{
+		return lhs.linkLatency > rhs.linkLatency;
+	}
+};
+
+
 class Server {
 private:
 	int mPort;
 	int mListenFD;
-	std::unordered_map<std::string,std::priority_queue<Link, std::vector<Link>, CompareLink>> link_map;
+	std::unordered_map<std::string,std::priority_queue<Link, std::vector<Link>, LinkComparator>> link_map;
 	std::set<Node> nodes;
 	void processConnection(ConnectionData* data);
 	void nodeConnect(std::string request);

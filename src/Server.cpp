@@ -27,6 +27,7 @@
 
 using namespace std;
 
+
 void Server::nodeJoin(std::string request){
 
 	
@@ -48,14 +49,7 @@ void Server::nodeJoin(std::string request){
 		int latency = std::stoi( tokenList[i*3+2]);
 		Link link = Link::Link(node, server, latency, true);
 		priority_queue<Link> links;
-		if(link_map.count(link.getLinkID())>0){
-			//has a key, add it!
-			link_map[link.getLinkID()].push(link);
-		} else {
-			//do we need this?
-			link_map[link.getLinkID()] = links;
-			link_map[link.getLinkID()].push(link);
-		}
+		link_map[link.getLinkID()].push(link);
 		
 	}
 	

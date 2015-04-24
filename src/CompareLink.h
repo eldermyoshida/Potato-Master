@@ -12,11 +12,4 @@
 #include <stdio.h>
 #include "Link.h"
 
-using namespace std;
-class CompareLink {
-public:
-	bool operator()(Link& l1, Link& l2);
-};
-
-
 #endif /* defined(__Potato_Master__CompareLink__) */

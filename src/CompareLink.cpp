@@ -7,11 +7,10 @@
 //
 
 #include "CompareLink.h"
-
-using namespace std;
-
+class CompareLink {
+public:
 	bool operator()(Link& l1, Link& l2)
 	{
 		return l1.linkLatency<l2.linkLatency;
 	}
-
+};
