@@ -17,12 +17,12 @@
 
 class Link {
 private:
-	sockaddr mServer, mNode;
+	struct sockaddr mServer, mNode;
 	
 public:
 	Link(sockaddr server, sockaddr node, int latency);
 	virtual ~Link();
-	std::string getServerIP;
+	std::string getLinkID();
 	int linkLatency;
 };
 

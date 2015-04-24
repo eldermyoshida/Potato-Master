@@ -51,6 +51,14 @@ namespace Constants {
 		};
 
 	}
+	
+	namespace PMessages {
+		const int JOIN = 1;
+		const int QUERY = 2;
+		const int RESPONSE = 3;
+		const int OK = 4;
+		const int UPDATE = 5;
+	}
 
 };
 

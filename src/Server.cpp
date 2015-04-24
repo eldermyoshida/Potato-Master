@@ -18,20 +18,27 @@
 
 using namespace std;
 
-void processConnection(ConnectionData* data)
+void Server::processConnection(ConnectionData* data)
 {
 	// The socket.
 	ConnectionData* pDat = data;
-
+	std::string request;
+	bytes requestBytes;
 	if (!pDat)
 	{
 		// Invalid data.
 		cerr << "NULL thread data." << endl;
 		return;
 	}
-
-	Connection connection(data);
-	connection.handleConnection();
+	
+	std::unique_ptr<Socket> sock = std::make_unique<Socket>(data->socket);
+	if (!sock->receive(requestBytes, -1))
+	{
+		cerr<<"Coul not receive node request";
+		return;
+	}
+	
+	
 }
 
 

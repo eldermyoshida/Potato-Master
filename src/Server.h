@@ -18,6 +18,7 @@ private:
 	int mPort;
 	int mListenFD;
 	std::unordered_map<std::string,std::priority_queue<Link>> link_map;
+	void processConnection(ConnectionData* data);
 	
 public:
 	Server(int port);
