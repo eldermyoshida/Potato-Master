@@ -14,7 +14,7 @@
 
 using namespace std;
 
-Connection::Connection(ConnectionData* connection, ) {
+Connection::Connection(ConnectionData* connection) {
 	mConnectionData = connection;
 }
 

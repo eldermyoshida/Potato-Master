@@ -13,17 +13,19 @@
 
 #include <stdio.h>
 #include "Socket.h"
+#include "Node.h"
 
 
 class Link {
 private:
-	struct sockaddr mServer, mNode;
+	struct Node mServer, mNode;
 	
 public:
-	Link(sockaddr server, sockaddr node, int latency);
+	Link(Node node, Node server, int latency, bool valid);
 	virtual ~Link();
 	std::string getLinkID();
 	int linkLatency;
+	bool valid = false;
 };
 
 #endif /* defined(__Potato_Master__Link__) */
