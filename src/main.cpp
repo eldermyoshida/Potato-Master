@@ -86,10 +86,10 @@ int main(int argc, char* argv[])
 	// -port <port>
 	Config cfg = ParseCommandLine(argc, argv);
 
-
+	
 	int port = cfg.port;
 	Server server = Server(port);
-
+	server.nodeJoin("1|a|b|c|d|10|d|e|15");
 	server.Listen();
 
 	return 0;

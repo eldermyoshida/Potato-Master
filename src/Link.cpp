@@ -19,10 +19,6 @@ Link::~Link(){
 	
 }
 
-bool operator<(const Link& x, const Link& y) {
-	return x.linkLatency<y.linkLatency;
-}
-
 std::string Link::getLinkID(){
 	std::string s;
 	s.clear();
